@@ -1,10 +1,20 @@
 import { NavigationContainer } from "@react-navigation/native";
-import AuthStack from "./AuthStack";
+import AuthStack from "@/routes/AuthStack";
+import AppStack from "@/routes/AppStack";
+import { useAuth, AuthProvider } from "../contexts/AuthContext";
 
-export default function Routes() {
+function Routes() {
+    const { isAuthenticated } = useAuth();
+
+    return isAuthenticated ? <AppStack /> : <AuthStack />;
+}
+
+export default function RootRoutes() {
     return (
-        <NavigationContainer>
-            <AuthStack />
-        </NavigationContainer>
+        <AuthProvider>
+            <NavigationContainer>
+                <Routes />
+            </NavigationContainer>
+        </AuthProvider>
     );
 }
